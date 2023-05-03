@@ -1,0 +1,47 @@
+import * as React from "react"
+import {
+  AlertTriangle,
+  ArrowRight,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Command,
+  CreditCard,
+  HelpCircle,
+  Image,
+  Laptop,
+  Loader2,
+  Moon,
+  MoreVertical,
+  Plus,
+  Settings,
+  SunMedium,
+  Trash,
+  User,
+  X,
+  type Icon as LucideIcon,
+} from "lucide-react"
+
+export type Icon = LucideIcon
+
+export const Icons = {
+  logo: Command,
+  close: X,
+  spinner: Loader2,
+  chevronLeft: ChevronLeft,
+  chevronRight: ChevronRight,
+  trash: Trash,
+  media: Image,
+  settings: Settings,
+  billing: CreditCard,
+  ellipsis: MoreVertical,
+  add: Plus,
+  warning: AlertTriangle,
+  user: User,
+  arrowRight: ArrowRight,
+  help: HelpCircle,
+  sun: SunMedium,
+  moon: Moon,
+  laptop: Laptop,
+  check: Check,
+}
