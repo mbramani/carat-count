@@ -44,13 +44,13 @@ model Session {
 }
 
 model User {
-  id          String   @id @default(cuid())
-  name        String?
-  email       String?  @unique
-  gstVerified Boolean  @default(false)
-  image       String?
-  createdAt   DateTime @default(now()) @map(name: "created_at")
-  updatedAt   DateTime @updatedAt @map(name: "updated_at")
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
 
   accounts Account[]
   sessions Session[]
@@ -66,8 +66,8 @@ enum GstType {
 
 model Gst {
   id               String   @id @default(cuid())
-  userId           String   @unique
-  type             GstType  @default(USER)
+  userId           String
+  gstType          GstType  @default(USER) @map(name: "gst_type")
   gstIn            String   @map(name: "gst_in")
   gstInStatus      String   @map(name: "gst_in_status")
   legalName        String   @map(name: "legal_name")
@@ -82,6 +82,7 @@ model Gst {
   user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   principalPlace PrincipalPlace?
 
+  @@unique([userId, gstType])
   @@map(name: "gst")
 }
 
@@ -94,7 +95,7 @@ model PrincipalPlace {
   street     String?
   locality   String?
   landMark   String? @map(name: "land_mark")
-  sistrict   String?
+  district   String?
   state      String?
   pincode    String?
   gst        Gst     @relation(fields: [gstId], references: [id], onDelete: Cascade)
