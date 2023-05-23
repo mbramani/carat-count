@@ -2,6 +2,7 @@ import { Inter as FontSans } from "next/font/google"
 
 import "@/styles/globals.css"
 import { cn } from "@/lib/utils"
+import { Toaster } from "@/components/ui/toaster"
 import { SessionProvider } from "@/components/session-provider"
 import { ThemeProvider } from "@/components/theme-provider"
 
@@ -31,6 +32,7 @@ export default function RootLayout({
         <SessionProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
+            <Toaster />
           </ThemeProvider>
         </SessionProvider>
       </body>
