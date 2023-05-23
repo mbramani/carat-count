@@ -25,7 +25,7 @@ model Account {
   id_token          String?  @db.Text
   session_state     String?
   createdAt         DateTime @default(now()) @map(name: "created_at")
-  updatedAt         DateTime @default(now()) @map(name: "updated_at")
+  updatedAt         DateTime @updatedAt @map(name: "updated_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -50,12 +50,57 @@ model User {
   emailVerified DateTime?
   image         String?
   createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
 
   accounts Account[]
   sessions Session[]
+  gst      Gst[]
 
   @@map(name: "users")
+}
+
+enum GstType {
+  USER
+  CLIENT
+}
+
+model Gst {
+  id               String   @id @default(cuid())
+  userId           String
+  gstType          GstType  @default(USER) @map(name: "gst_type")
+  gstIn            String   @map(name: "gst_in")
+  gstInStatus      String   @map(name: "gst_in_status")
+  legalName        String   @map(name: "legal_name")
+  tradeName        String   @map(name: "trade_name")
+  taxpayerType     String   @map(name: "taxpayer_type")
+  constitution     String
+  nature           String
+  registrationDate DateTime @map(name: "registration_date")
+  createdAt        DateTime @default(now()) @map(name: "created_at")
+  updatedAt        DateTime @updatedAt @map(name: "updated_at")
+
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  principalPlace PrincipalPlace?
+
+  @@unique([userId, gstType])
+  @@map(name: "gst")
+}
+
+model PrincipalPlace {
+  id         String  @id @default(cuid())
+  gstId      String  @unique
+  branchNo   String? @map(name: "branch_no")
+  branchName String? @map(name: "branch_name")
+  location   String?
+  street     String?
+  locality   String?
+  landMark   String? @map(name: "land_mark")
+  district   String?
+  state      String?
+  pincode    String?
+  gst        Gst     @relation(fields: [gstId], references: [id], onDelete: Cascade)
+
+  @@map(name: "principal_place")
 }
 
 model VerificationToken {
