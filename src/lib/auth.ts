@@ -1,5 +1,6 @@
+import { GetServerSidePropsContext } from "next"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { NextAuthOptions } from "next-auth"
+import { NextAuthOptions, getServerSession } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import { env } from "~/env.mjs"
 
@@ -53,4 +54,11 @@ export const authOptions: NextAuthOptions = {
       }
     },
   },
+}
+
+export const getServerAuthSession = (ctx: {
+  req: GetServerSidePropsContext["req"]
+  res: GetServerSidePropsContext["res"]
+}) => {
+  return getServerSession(ctx.req, ctx.res, authOptions)
 }
